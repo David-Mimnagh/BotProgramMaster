@@ -1,0 +1,8 @@
+C:\Users\David Mimnagh\Desktop\Projects\Personal\BotProgram\BotProgram\bin\Debug\BotProgram.exe.config
+C:\Users\David Mimnagh\Desktop\Projects\Personal\BotProgram\BotProgram\bin\Debug\BotProgram.exe
+C:\Users\David Mimnagh\Desktop\Projects\Personal\BotProgram\BotProgram\bin\Debug\BotProgram.pdb
+C:\Users\David Mimnagh\Desktop\Projects\Personal\BotProgram\BotProgram\obj\Debug\BotProgram.csprojResolveAssemblyReference.cache
+C:\Users\David Mimnagh\Desktop\Projects\Personal\BotProgram\BotProgram\obj\Debug\BotProgram.exe
+C:\Users\David Mimnagh\Desktop\Projects\Personal\BotProgram\BotProgram\obj\Debug\BotProgram.pdb
+C:\Users\David Mimnagh\Desktop\Projects\Personal\BotProgram\BotProgram\obj\Debug\BotProgram.Properties.Resources.resources
+C:\Users\David Mimnagh\Desktop\Projects\Personal\BotProgram\BotProgram\obj\Debug\BotProgram.csproj.GenerateResource.Cache

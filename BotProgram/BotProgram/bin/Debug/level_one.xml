@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Level xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BoardWidth>50</BoardWidth>
+  <BoardHeight>50</BoardHeight>
+  <Walls>
+    <Wall>
+      <XPos>15</XPos>
+      <YPos>0</YPos>
+    </Wall>
+    <Wall>
+      <XPos>16</XPos>
+      <YPos>20</YPos>
+    </Wall>
+  </Walls>
+  <Exit>
+    <XPos>48</XPos>
+    <YPos>3</YPos>
+  </Exit>
+  <Gates>
+    <Gate>
+      <GateID>1</GateID>
+      <XPos>45</XPos>
+      <YPos>20</YPos>
+    </Gate>
+  </Gates>
+  <Keys>
+    <Key>
+      <GateID>1</GateID>
+      <XPos>18</XPos>
+      <Ypos>22</Ypos>
+    </Key>
+  </Keys>
+</Level>
