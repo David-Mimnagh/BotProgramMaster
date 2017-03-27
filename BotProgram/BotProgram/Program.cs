@@ -20,7 +20,7 @@ namespace BotProgram
         static int wallPosY { get; set; }
         static int wallGapPosX { get; set; }
 
-
+        static int currentLevel { get; set; }
         static void DrawBoard(char[,] board, Level l)
         {
             Console.Clear();
@@ -144,7 +144,6 @@ namespace BotProgram
             return maxMoves;
         }
 
-
         private static bool CheckPlayerInvent(int posY, int posX, Level curreLevel)
         {
             int gId = 0;
@@ -191,6 +190,7 @@ namespace BotProgram
                 case "up":
                     if (board[bPosY - 1, bPosX] == '#' || board[bPosY - 1, bPosX] == 'w')
                     {
+                        board[bPosY, bPosX] = 'B';
                         break;
                     }
                     else if (board[bPosY - 1, bPosX] == 'G')
@@ -202,6 +202,7 @@ namespace BotProgram
                         }
                         else
                         {
+                            board[bPosY, bPosX] = 'B';
                             break;
                         }
                     }
@@ -213,7 +214,8 @@ namespace BotProgram
                     }
                     else if (board[bPosY - 1, bPosX] == 'E')
                     {
-
+                        board[bPosY, bPosX] = '-';
+                        board[bPosY - 1, bPosX] = 'B';
                     }
                     else
                     {
@@ -224,6 +226,7 @@ namespace BotProgram
                 case "down":
                     if (board[bPosY + 1, bPosX] == '#' || board[bPosY + 1, bPosX] == 'w')
                     {
+                        board[bPosY, bPosX] = 'B';
                         break;
                     }
                     else if (board[bPosY + 1, bPosX] == 'G')
@@ -235,6 +238,7 @@ namespace BotProgram
                         }
                         else
                         {
+                            board[bPosY, bPosX] = 'B';
                             break;
                         }
                     }
@@ -246,7 +250,8 @@ namespace BotProgram
                     }
                     else if (board[bPosY + 1, bPosX] == 'E')
                     {
-
+                        board[bPosY, bPosX] = '-';
+                        board[bPosY + 1, bPosX] = 'B';
                     }
                     else
                     {
@@ -257,6 +262,7 @@ namespace BotProgram
                 case "left":
                     if (board[bPosY, bPosX - 1] == '#' || board[bPosY, bPosX - 1] == 'w')
                     {
+                        board[bPosY, bPosX] = 'B';
                         break;
                     }
                     else if (board[bPosY, bPosX - 1] == 'G')
@@ -268,6 +274,7 @@ namespace BotProgram
                         }
                         else
                         {
+                            board[bPosY, bPosX] = 'B';
                             break;
                         }
                     }
@@ -279,7 +286,8 @@ namespace BotProgram
                     }
                     else if (board[bPosY, bPosX - 1] == 'E')
                     {
-
+                        board[bPosY, bPosX] = '-';
+                        board[bPosY, bPosX - 1] = 'B';
                     }
                     else
                     {
@@ -290,6 +298,7 @@ namespace BotProgram
                 case "right":
                     if (board[bPosY, bPosX + 1] == '#' || board[bPosY, bPosX + 1] == 'w')
                     {
+                        board[bPosY, bPosX] = 'B';
                         break;
                     }
                     else if (board[bPosY, bPosX + 1] == 'G')
@@ -301,6 +310,7 @@ namespace BotProgram
                         }
                         else
                         {
+                            board[bPosY, bPosX] = 'B';
                             break;
                         }
                     }
@@ -312,7 +322,8 @@ namespace BotProgram
                     }
                     else if (board[bPosY, bPosX + 1] == 'E')
                     {
-
+                        board[bPosY, bPosX] = '-';
+                        board[bPosY, bPosX + 1] = 'B';
                     }
                     else
                     {
@@ -463,6 +474,7 @@ namespace BotProgram
                         Console.Write("\n\n\n\t GOOD JOB YOU REACHED THE END");
                         waiting = false;
                         playing = false;
+                        currentLevel += 1;
                     }
                 }
                 //if (command != "up")
@@ -795,7 +807,23 @@ namespace BotProgram
         }
 
 
-
+        private static Level LoadLevel(int levelNo)
+        {
+            if (levelNo == 1)
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(BotProgram.Properties.Resources.level_1);
+                XmlSerializer x = new XmlSerializer(typeof(Level));
+                return (Level)x.Deserialize(new StringReader(doc.InnerXml));
+            }
+            else
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(BotProgram.Properties.Resources.level_2);
+                XmlSerializer x = new XmlSerializer(typeof(Level));
+                return (Level)x.Deserialize(new StringReader(doc.InnerXml));
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -829,43 +857,45 @@ namespace BotProgram
             //XmlWriter x = new XmlWriter();
             //x.WriteLevelToFile(level, 2);
 
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(BotProgram.Properties.Resources.level_1);
-            XmlSerializer x = new XmlSerializer(typeof(Level));
-            Level level1 = (Level)x.Deserialize(new StringReader(doc.InnerXml));
-            //string[] text = BotProgram.Properties.Resources.level1.Split('\n');
-            Console.Write("Welcome to Bot Program!");
-
-            Console.Write("\nWithin this program we can do several things.");
-            Console.Write("\nFirst things first, let's get a board drawn for you.");
-
-
-            GenBoardSizes();
-            char[,] board = LoadLevelToBoard(level1);
-
-
-            //board = GenBoard(board);
-
-            DrawBoard(board, level1);
-
-
-            Console.Write("\n\n\nWith the board drawn, let's get the bot in place.");
-            board[1, 1] = 'B';
-
-            DrawBoard(board, level1);
-
-
-            board = Intro(board, level1);
-
-            Console.Write("\n\n\n\n Do you know what you're doing now?\n Let's try get to the goal 'O'.");
-
-
-
-            bool playing = true;
-            bool regen = true;
-            while(playing)
+           
+            currentLevel = 1;
+            while (currentLevel <= 2)
             {
-               playing = Playing(playing, board, level1);
+                Level level = LoadLevel(currentLevel);
+                //string[] text = BotProgram.Properties.Resources.level1.Split('\n');
+                Console.Write("Welcome to Bot Program!");
+
+                Console.Write("\nWithin this program we can do several things.");
+                Console.Write("\nFirst things first, let's get a board drawn for you.");
+
+
+                GenBoardSizes();
+                char[,] board = LoadLevelToBoard(level);
+
+
+                //board = GenBoard(board);
+
+                DrawBoard(board, level);
+
+
+                Console.Write("\n\n\nWith the board drawn, let's get the bot in place.");
+                board[1, 1] = 'B';
+
+                DrawBoard(board, level);
+
+
+                board = Intro(board, level);
+
+                Console.Write("\n\n\n\n Do you know what you're doing now?\n Let's try get to the goal 'O'.");
+
+
+
+                bool playing = true;
+                bool regen = true;
+                while (playing)
+                {
+                    playing = Playing(playing, board, level);
+                }
             }
         }
 

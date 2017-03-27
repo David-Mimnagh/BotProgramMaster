@@ -5,12 +5,12 @@
   <Walls>
     <Wall>
       <XPos>15</XPos>
-      <YPos>0</YPos>
+      <YPos>25</YPos>
       <Horizontal>false</Horizontal>
     </Wall>
     <Wall>
       <XPos>30</XPos>
-      <YPos>0</YPos>
+      <YPos>27</YPos>
       <Horizontal>false</Horizontal>
     </Wall>
     <Wall>
@@ -19,13 +19,8 @@
       <Horizontal>true</Horizontal>
     </Wall>
     <Wall>
-      <XPos>40</XPos>
-      <YPos>16</YPos>
-      <Horizontal>false</Horizontal>
-    </Wall>
-    <Wall>
       <XPos>50</XPos>
-      <YPos>18</YPos>
+      <YPos>26</YPos>
       <Horizontal>false</Horizontal>
     </Wall>
   </Walls>
@@ -42,7 +37,7 @@
     <Gate>
       <GateID>2</GateID>
       <XPos>30</XPos>
-      <YPos>39</YPos>
+      <YPos>28</YPos>
     </Gate>
     <Gate>
       <GateID>3</GateID>
@@ -54,7 +49,7 @@
     <Key>
       <GateID>3</GateID>
       <XPos>2</XPos>
-      <Ypos>38</Ypos>
+      <Ypos>28</Ypos>
     </Key>
     <Key>
       <GateID>1</GateID>
