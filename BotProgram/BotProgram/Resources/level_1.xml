@@ -5,14 +5,28 @@
   <Walls>
     <Wall>
       <XPos>15</XPos>
-      <YPos>30</YPos>
+      <XLength>0</XLength>
+      <YPos>0</YPos>
+      <YLength>20</YLength>
       <Horizontal>false</Horizontal>
+      <Breakable>false</Breakable>
     </Wall>
     <Wall>
-      <XPos>16</XPos>
+      <XPos>15</XPos>
+      <XLength>0</XLength>
       <YPos>20</YPos>
-      <Horizontal>true</Horizontal>
+      <YLength>0</YLength>
+      <Horizontal>false</Horizontal>
+      <Breakable>true</Breakable>
     </Wall>
+      <Wall>
+        <XPos>16</XPos>
+        <XLength>0</XLength>
+        <YPos>20</YPos>
+        <YLength>0</YLength>
+        <Horizontal>true</Horizontal>
+        <Breakable>false</Breakable>
+      </Wall>
   </Walls>
   <Exit>
     <XPos>48</XPos>

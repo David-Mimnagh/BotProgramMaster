@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using BotProgram.Models;
+using System.Diagnostics;
 namespace BotProgram
 {
     public class Program
@@ -14,13 +15,16 @@ namespace BotProgram
         static int boardXLength { get; set; }
         static int boardYLength { get; set; }
         static List<Key> BotInvent = new List<Key>();
+        static int bombCount { get; set; }
+        static int playerLives { get; set; }
         static int goalY { get; set; }
         static int goalX { get; set; }
-
+        static string elapsedTime { get; set; }
         static int wallPosY { get; set; }
         static int wallGapPosX { get; set; }
-
+        
         static int currentLevel { get; set; }
+
         static void DrawBoard(char[,] board, Level l)
         {
             Console.Clear();
@@ -35,11 +39,18 @@ namespace BotProgram
                             Console.ForegroundColor = ConsoleColor.Green;
                             break;
                         case 'G':
-                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            if(CheckPlayerInvent(i, j,l))
+                            {
+                                board[i, j] = '-';
+                                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                            }
+                            else
+                                Console.ForegroundColor = ConsoleColor.Cyan;
                             break;
                         case 'K':
                             Console.ForegroundColor = ConsoleColor.Yellow;
                             break;
+                        case 'W':
                         case 'w':
                             Console.ForegroundColor = ConsoleColor.Magenta;
                             break;
@@ -49,16 +60,45 @@ namespace BotProgram
                         case 'B':
                             Console.ForegroundColor = ConsoleColor.White;
                             break;
+                        case 'X':
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            break;
                         default:
                             Console.ForegroundColor = ConsoleColor.DarkCyan;
                             break;
 
 
                     }
+                    Console.CursorVisible = false;
                     Console.Write(board[i, j] + " ");
                 }
+                Console.ForegroundColor = ConsoleColor.White;
+                if( i == 1 )
+                    Console.Write("\t\tYou currently have " + BotInvent.Count.ToString() + " key(s).");
+                else if (i == 2)
+                {
+                    if (l.Keys.Count - BotInvent.Count > 1)
+                        Console.Write("\t\tThere are still " + ((l.Keys.Count - BotInvent.Count).ToString()) + " keys to find.");
+                    else if (l.Keys.Count - BotInvent.Count == 1)
+                        Console.Write("\t\tThere is still " + ((l.Keys.Count - BotInvent.Count).ToString()) + " key to find.");
+                    else
+                        Console.Write("\t\tGreat! There are no more keys to find.");
+                }
+
+                else if (i == 3)
+                {
+                        Console.Write("\t\tBot lives left: "+ playerLives);
+                }
+                else if (i == 4)
+                {
+                    Console.Write("\t\tBomb's left: " + bombCount);
+                }
+                else if (i == 5)
+                {
+                    Console.Write("\t\tTime Elapsed: " + elapsedTime);
+                }
             }
-            Console.ForegroundColor = ConsoleColor.White;
+            
         }
 
         private static string GetBotPosition(char[,] board, Level l)
@@ -188,7 +228,12 @@ namespace BotProgram
             switch(command)
             {
                 case "up":
-                    if (board[bPosY - 1, bPosX] == '#' || board[bPosY - 1, bPosX] == 'w')
+                    if (board[bPosY - 1, bPosX] == '#' || board[bPosY - 1, bPosX] == 'W' )
+                    {
+                        board[bPosY, bPosX] = 'B';
+                        break;
+                    }
+                    else if (board[bPosY - 1, bPosX] == 'w')
                     {
                         board[bPosY, bPosX] = 'B';
                         break;
@@ -217,6 +262,12 @@ namespace BotProgram
                         board[bPosY, bPosX] = '-';
                         board[bPosY - 1, bPosX] = 'B';
                     }
+                    else if (board[bPosY - 1, bPosX] == 'X')
+                    {
+                        board[bPosY, bPosX] = '-';
+                        board[bPosY - 1, bPosX] = 'B';
+                        bombCount += 1;
+                    }
                     else
                     {
                         board[bPosY, bPosX] = '-';
@@ -224,7 +275,12 @@ namespace BotProgram
                     }
                     break;
                 case "down":
-                    if (board[bPosY + 1, bPosX] == '#' || board[bPosY + 1, bPosX] == 'w')
+                    if (board[bPosY + 1, bPosX] == '#' || board[bPosY + 1, bPosX] == 'W')
+                    {
+                        board[bPosY, bPosX] = 'B';
+                        break;
+                    }
+                    else if (board[bPosY + 1, bPosX] == 'w')
                     {
                         board[bPosY, bPosX] = 'B';
                         break;
@@ -253,6 +309,12 @@ namespace BotProgram
                         board[bPosY, bPosX] = '-';
                         board[bPosY + 1, bPosX] = 'B';
                     }
+                    else if (board[bPosY + 1, bPosX] == 'X')
+                    {
+                        board[bPosY, bPosX] = '-';
+                        board[bPosY + 1, bPosX] = 'B';
+                        bombCount += 1;
+                    }
                     else
                     {
                         board[bPosY, bPosX] = '-';
@@ -260,7 +322,12 @@ namespace BotProgram
                     }
                     break;
                 case "left":
-                    if (board[bPosY, bPosX - 1] == '#' || board[bPosY, bPosX - 1] == 'w')
+                    if (board[bPosY, bPosX - 1] == '#' || board[bPosY, bPosX - 1] == 'W')
+                    {
+                        board[bPosY, bPosX] = 'B';
+                        break;
+                    }
+                    else if (board[bPosY, bPosX - 1] == 'w')
                     {
                         board[bPosY, bPosX] = 'B';
                         break;
@@ -289,6 +356,12 @@ namespace BotProgram
                         board[bPosY, bPosX] = '-';
                         board[bPosY, bPosX - 1] = 'B';
                     }
+                    else if (board[bPosY, bPosX - 1] == 'X')
+                    {
+                        board[bPosY, bPosX] = '-';
+                        board[bPosY, bPosX - 1] = 'B';
+                        bombCount += 1;
+                    }
                     else
                     {
                         board[bPosY, bPosX] = '-';
@@ -296,7 +369,12 @@ namespace BotProgram
                     }
                     break;
                 case "right":
-                    if (board[bPosY, bPosX + 1] == '#' || board[bPosY, bPosX + 1] == 'w')
+                    if (board[bPosY, bPosX + 1] == '#' || board[bPosY, bPosX + 1] == 'W')
+                    {
+                        board[bPosY, bPosX] = 'B';
+                        break;
+                    }
+                    else if (board[bPosY, bPosX + 1] == 'w')
                     {
                         board[bPosY, bPosX] = 'B';
                         break;
@@ -324,6 +402,12 @@ namespace BotProgram
                     {
                         board[bPosY, bPosX] = '-';
                         board[bPosY, bPosX + 1] = 'B';
+                    }
+                    else if (board[bPosY, bPosX + 1] == 'X')
+                    {
+                        board[bPosY, bPosX] = '-';
+                        board[bPosY, bPosX + 1] = 'B';
+                        bombCount += 1;
                     }
                     else
                     {
@@ -414,6 +498,131 @@ namespace BotProgram
             }
         }
 
+        private static void DrawBomb(string lastDir, char[,] board, Level level)
+        {
+            string botPos = GetBotPositionNoChange(board, level);
+            string[] pos = botPos.Split(',');
+            switch(lastDir)
+            {
+                case "up":
+                    if(board[Convert.ToInt32(pos[0]) + 1 ,Convert.ToInt32(pos[1])] == '-')
+                    {
+                        board[Convert.ToInt32(pos[0]) + 1, Convert.ToInt32(pos[1])] = 'B';
+                        board[Convert.ToInt32(pos[0]), Convert.ToInt32(pos[1])] = 'X';
+                    }
+                    break;
+                case "down":
+                    if (board[Convert.ToInt32(pos[0]) - 1, Convert.ToInt32(pos[1])] == '-')
+                    {
+                        board[Convert.ToInt32(pos[0]) - 1, Convert.ToInt32(pos[1])] = 'B';
+                        board[Convert.ToInt32(pos[0]), Convert.ToInt32(pos[1])] = 'X';
+                    }
+                    break;
+                case "right":
+                    if (board[Convert.ToInt32(pos[0]), Convert.ToInt32(pos[1]) - 1] == '-')
+                    {
+                        board[Convert.ToInt32(pos[0]), Convert.ToInt32(pos[1]) - 1] = 'B';
+                        board[Convert.ToInt32(pos[0]), Convert.ToInt32(pos[1])] = 'X';
+                    }
+                    break;
+                case "left":
+                    if (board[Convert.ToInt32(pos[0]), Convert.ToInt32(pos[1]) + 1] == '-')
+                    {
+                        board[Convert.ToInt32(pos[0]), Convert.ToInt32(pos[1]) + 1] = 'B';
+                        board[Convert.ToInt32(pos[0]), Convert.ToInt32(pos[1])] = 'X';
+                    }
+                    break;
+
+            }
+        }
+
+        private static void DetBomb(char[,] board, Level l)
+        {
+             for (int i = 0; i < l.BoardHeight; i++)
+             {
+                 for (int j = 0; j < l.BoardWidth; j++)
+                 {
+                     if(board[i,j] == 'X')
+                     {
+                         //top left
+                         if (board[i - 1, j - 1] == 'w')
+                             board[i - 1, j - 1] = '-';
+                         else if (board[i - 1, j - 1] == 'B')
+                             {
+                                 board[i - 1, j - 1] = '-';
+                                 board[1, 1] = 'B';
+                                 playerLives -= 1;
+                             }
+                         //top 
+                         if (board[i - 1, j] == 'w')
+                             board[i - 1, j] = '-';
+                         else if (board[i - 1, j] == 'B')
+                         {
+                             board[i - 1, j] = '-';
+                             board[1, 1] = 'B';
+                             playerLives -= 1;
+                         }
+                         //top right
+                         if (board[i - 1, j + 1] == 'w')
+                             board[i - 1, j + 1] = '-';
+                         else if (board[i - 1, j + 1] == 'B')
+                         {
+                             board[i - 1, j + 1] = '-';
+                             board[1, 1] = 'B';
+                             playerLives -= 1;
+                         }
+                         // left
+                         if (board[i, j - 1] == 'w')
+                             board[i, j - 1] = '-';
+                         else if (board[i, j - 1] == 'B')
+                         {
+                             board[i, j - 1] = '-';
+                             board[1, 1] = 'B';
+                             playerLives -= 1;
+                         }
+                         //center
+                         board[i, j] = '-';
+                         bombCount += 1;
+                         //right
+                         if (board[i, j + 1] == 'w')
+                             board[i, j + 1] = '-';
+                         else if (board[i, j + 1] == 'B')
+                         {
+                             board[i, j + 1] = '-';
+                             board[1, 1] = 'B';
+                             playerLives -= 1;
+                         }
+                         //bottom left
+                         if (board[i + 1, j - 1] == 'w')
+                             board[i + 1, j - 1] = '-';
+                         else if (board[i + 1, j - 1] == 'B')
+                         {
+                             board[i + 1, j - 1] = '-';
+                             board[1, 1] = 'B';
+                             playerLives -= 1;
+                         }
+                         //bottom 
+                         if (board[i + 1, j] == 'w')
+                             board[i + 1, j] = '-';
+                         else if (board[i + 1, j] == 'B')
+                         {
+                             board[i + 1, j] = '-';
+                             board[1, 1] = 'B';
+                             playerLives -= 1;
+                         }
+                         //bottom right
+                         if (board[i + 1, j + 1] == 'w')
+                             board[i + 1, j + 1] = '-';
+                         else if (board[i + 1, j] == 'B')
+                         {
+                             board[i + 1, j + 1] = '-';
+                             board[1, 1] = 'B';
+                             playerLives -= 1;
+                         }
+                     }
+                 }
+             }
+        }
 
         private static bool Playing(bool playing, char[,] board, Level level)
         {
@@ -422,6 +631,7 @@ namespace BotProgram
             string moveCountString = "0";
             int moveCount = 0;
             bool waitingToMove = true;
+            string lastDirection = "right";
             Console.Write("\nStart by typing 'move' again: ");
             do
             {
@@ -437,35 +647,61 @@ namespace BotProgram
 
             Console.Write("\n Please give the bot a direction to move in.\n Type 'up', 'right', 'down', 'left' for the direction you want the bot to move in.");
 
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             while (waiting)
             {
-                string botPos = GetBotPositionNoChange(board,level);
-                string[] pos = botPos.Split(',');
-                Console.SetCursorPosition(Convert.ToInt32(pos[0]),Convert.ToInt32(pos[1]));
+                TimeSpan ts = stopWatch.Elapsed;
+                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
                 ConsoleKeyInfo keypress;
                 keypress = Console.ReadKey(); // read keystrokes 
-
+               
                 if (keypress.Key == ConsoleKey.LeftArrow)
                 {
                     MovePlayerOneSpace("left",board,level);
+                    lastDirection = "left";
                 }
                 else if (keypress.Key == ConsoleKey.RightArrow)
                 {
                     MovePlayerOneSpace("right", board, level);
+                    lastDirection = "right";
                 }
                 else if (keypress.Key == ConsoleKey.UpArrow)
                 {
                     MovePlayerOneSpace("up", board, level);
+                    lastDirection = "up";
                 }
                 else if (keypress.Key == ConsoleKey.DownArrow)
                 {
                     MovePlayerOneSpace("down", board, level);
+                    lastDirection = "down";
+                }
+                else if (keypress.Key == ConsoleKey.B)
+                {
+                    if (bombCount >= 1)
+                    {
+                        DrawBomb(lastDirection, board, level);
+                        bombCount -= 1;
+                    }
+                    else
+                    {
+                        Console.WriteLine("NO BOMBS LEFT!");
+                    }
+                }
+                else if (keypress.Key == ConsoleKey.D)
+                {
+                    DetBomb(board, level);
+                }
+                else if (keypress.Key == ConsoleKey.Escape)
+                {
+                    Environment.Exit(0);
                 }
                 Console.Write("\n\n\n\n Here's the updated board...");
+                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
                 DrawBoard(board, level);
-
-                botPos = GetBotPositionNoChange(board,level);
-                pos = botPos.Split(',');
+                string botPos = GetBotPositionNoChange(board, level);
+                string[] pos = botPos.Split(',');
+                Console.SetCursorPosition(Convert.ToInt32(pos[0]), Convert.ToInt32(pos[1]));
 
                 if (Convert.ToInt32(pos[0]) == level.Exit.YPos)
                 {
@@ -475,43 +711,12 @@ namespace BotProgram
                         waiting = false;
                         playing = false;
                         currentLevel += 1;
+                        BotInvent = new List<Key>();
                     }
                 }
-                //if (command != "up")
-                //{
-                //    if (command != "right")
-                //    {
-                //        if (command != "down")
-                //        {
-                //            if (command != "left")
-                //            {
-                //                Console.Write("\n\nPlease, type in 'up', 'right', 'down', 'left' for the direction.\n");
-                //            }
-                //            else
-                //            {
-                //                Console.Write("\nGreat, now we need a distance...");
-                //                waiting = false;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            Console.Write("\nGreat, now we need a distance...");
-                //            waiting = false;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        Console.Write("\nGreat, now we need a distance...");
-                //        waiting = false;
-                //    }
-                //}
-                //else
-                //{
-                //    Console.Write("\nGreat, now we need a distance...");
-                //    waiting = false;
-                //}
-            }
 
+            }
+            stopWatch.Stop();
 
             
             //while (waitingToMove)
@@ -559,6 +764,7 @@ namespace BotProgram
             //}
             return playing;
         }
+
 
         
         private static void GenBoardSizes()
@@ -608,29 +814,53 @@ namespace BotProgram
                 }
             }
             //ADD IN THE WALLS
-            foreach (var w in l.Walls)
+            foreach (var W in l.Walls)
             {
                 for (int i = 0; i < l.BoardHeight; i++)
                 {
                     for (int j = 0; j < l.BoardWidth; j++)
                     {
-                        if(w.Horizontal)
+                        if(W.Horizontal)
                         {
-                            if(i == w.YPos)
+                            if(i == W.YPos)
                             {
-                                if(j >= w.XPos)
-                                {
-                                  board[i, j] = 'w';  
-                                }
+                                int length = 0;
+                                if (W.XLength == 0)
+                                    length = l.BoardWidth - 2;
+                                else
+                                    length = W.XPos + W.XLength;
+
+                                    if (j >= W.XPos && j <= length)
+                                    {
+                                        if (W.Breakable == true)
+                                            board[i, j] = 'w';
+                                        else 
+                                            board[i, j] = 'W';
+                                    }
                             }
                         }
                         else
                         {
-                            if (i <= w.YPos)
+                            if (i >= 1)
                             {
-                                if (j == w.XPos)
+                                int length = 0;
+                                if (W.YLength == 0)
+                                    length = l.BoardHeight - 2;
+                                else
+                                    length = W.YPos + W.YLength;
+
+                                if (i >= W.YPos && i <=length)
                                 {
-                                    board[i, j] = 'w';
+                                    if (i <= l.BoardHeight - 2)
+                                    {
+                                        if (j == W.XPos)
+                                        {
+                                            if (W.Breakable == true)
+                                                board[i, j] = 'w';
+                                            else
+                                                board[i, j] = 'W';
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -676,6 +906,7 @@ namespace BotProgram
             }
             return board;
         }
+
         private static char[,] GenBoard(char[,] board)
         {
             for (int i = 0; i < boardYLength; i++)
@@ -892,10 +1123,16 @@ namespace BotProgram
 
                 bool playing = true;
                 bool regen = true;
+                bombCount = 3;
+                playerLives = 3;
+
+                
                 while (playing)
                 {
                     playing = Playing(playing, board, level);
+                    
                 }
+                
             }
         }
 
