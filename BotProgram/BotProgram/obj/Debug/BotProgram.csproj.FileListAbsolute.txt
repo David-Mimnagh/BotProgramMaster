@@ -14,3 +14,6 @@ C:\Users\David Mimnagh\Documents\GitHub\BotProgramMaster\BotProgram\BotProgram\b
 C:\Users\David Mimnagh\Documents\GitHub\BotProgramMaster\BotProgram\BotProgram\obj\Debug\BotProgram.csprojResolveAssemblyReference.cache
 C:\Users\David Mimnagh\Documents\GitHub\BotProgramMaster\BotProgram\BotProgram\obj\Debug\BotProgram.Properties.Resources.resources
 C:\Users\David Mimnagh\Documents\GitHub\BotProgramMaster\BotProgram\BotProgram\obj\Debug\BotProgram.csproj.GenerateResource.Cache
+C:\Users\andrew.calderwood.Dev-Lap-10\Source\Repos\BotProgramMaster\BotProgram\BotProgram\bin\Debug\BotProgram.exe.config
+C:\Users\andrew.calderwood.Dev-Lap-10\Source\Repos\BotProgramMaster\BotProgram\BotProgram\obj\Debug\BotProgram.exe
+C:\Users\andrew.calderwood.Dev-Lap-10\Source\Repos\BotProgramMaster\BotProgram\BotProgram\obj\Debug\BotProgram.pdb
