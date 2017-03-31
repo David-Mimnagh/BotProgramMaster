@@ -1058,7 +1058,7 @@ namespace BotProgram
 
         static void Main(string[] args)
         {
-
+            throw new Exception("GET BACK TO WORK!!");
             //Level level = new Level();
 
             //level.BoardHeight = 30;
