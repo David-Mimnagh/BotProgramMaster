@@ -645,7 +645,7 @@ namespace BotProgram
                 }
             } while (command != "move");
 
-            Console.Write("\n Please give the bot a direction to move in.\n Type 'up', 'right', 'down', 'left' for the direction you want the bot to move in.");
+            Console.Write("\n Please give the Gay Bot a direction to move in.\n Type 'up', 'right', 'down', 'left' for the direction you want the Gay Bot to move in.");
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -725,13 +725,13 @@ namespace BotProgram
             //    if (command == "right" || command == "left")
             //    {
             //        moveCountMax = boardXLength - 2;
-            //        Console.Write("\n Please give the bot a distance to move between 1 and " + moveCountMax.ToString() + " blocks: ");
+            //        Console.Write("\n Please give the Gay Bot a distance to move between 1 and " + moveCountMax.ToString() + " blocks: ");
                     
             //    }
             //    else
             //    {
             //        moveCountMax = boardYLength - 2;
-            //        Console.Write("\n Please give the bot a distance to move between 1 and " + moveCountMax.ToString() + " blocks: ");
+            //        Console.Write("\n Please give the Gay Bot a distance to move between 1 and " + moveCountMax.ToString() + " blocks: ");
             //    }
 
                 
@@ -741,7 +741,7 @@ namespace BotProgram
             //    {
             //        if (moveCount < moveCountMax)
             //        {
-            //            Console.Write("\n Great, we will move the bot " + moveCount + " paces '" + command + "'.");
+            //            Console.Write("\n Great, we will move the Gay Bot " + moveCount + " paces '" + command + "'.");
             //            waitingToMove = false;
             //        }
             //    }
@@ -940,7 +940,7 @@ namespace BotProgram
         {
 
 
-            Console.Write("\n\n The bot is ready, let's try a calling a simple function.");
+            Console.Write("\n\n The Gay Bot is ready, let's try a calling a simple function.");
             Console.Write("\n Functions a pre defined and allow us to move and interact with the board.\n We will start with the move function.");
             Console.Write("\n Start by typing in 'move': ");
 
@@ -957,7 +957,7 @@ namespace BotProgram
                 }
             } while (command != "move");
 
-            Console.Write("\n Please give the bot a direction to move in.\n Type 'up', 'right', 'down', 'left' for the direction you want the bot to move in.");
+            Console.Write("\n Please give the Gay Bot a direction to move in.\n Type 'up', 'right', 'down', 'left' for the direction you want the Gay Bot to move in.");
             bool waiting = true;
 
             while (waiting)
@@ -1009,13 +1009,13 @@ namespace BotProgram
                 if (command == "right" || command == "left")
                 {
                     moveCountMax = boardXLength - 2;
-                    Console.Write("\n Please give the bot a distance to move between 1 and " + moveCountMax.ToString() + " blocks: ");
+                    Console.Write("\n Please give the Gay Bot a distance to move between 1 and " + moveCountMax.ToString() + " blocks: ");
 
                 }
                 else
                 {
                     moveCountMax = boardYLength - 2;
-                    Console.Write("\n Please give the bot a distance to move between 1 and " + moveCountMax.ToString() + " blocks: ");
+                    Console.Write("\n Please give the Gay Bot a distance to move between 1 and " + moveCountMax.ToString() + " blocks: ");
                 }
 
                 moveCountString = Console.ReadLine();
@@ -1024,7 +1024,7 @@ namespace BotProgram
                 {
                     if (moveCount < moveCountMax)
                     {
-                        Console.Write("\n Great, we will move the bot " + moveCount + " paces '" + command + "'.");
+                        Console.Write("\n Great, we will move the Gay Bot " + moveCount + " paces '" + command + "'.");
                         waitingToMove = false;
                     }
                 }
@@ -1094,7 +1094,7 @@ namespace BotProgram
             {
                 Level level = LoadLevel(currentLevel);
                 //string[] text = BotProgram.Properties.Resources.level1.Split('\n');
-                Console.Write("Welcome to Bot Program!");
+                Console.Write("Welcome to Gay Bot Program!");
 
                 Console.Write("\nWithin this program we can do several things.");
                 Console.Write("\nFirst things first, let's get a board drawn for you.");
@@ -1109,7 +1109,7 @@ namespace BotProgram
                 DrawBoard(board, level);
 
 
-                Console.Write("\n\n\nWith the board drawn, let's get the bot in place.");
+                Console.Write("\n\n\nWith the board drawn, let's get the Gay Bot in place.");
                 board[1, 1] = 'B';
 
                 DrawBoard(board, level);
